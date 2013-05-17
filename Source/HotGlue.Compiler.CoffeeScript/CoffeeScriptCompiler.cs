@@ -13,8 +13,11 @@ namespace HotGlue.Compilers
         public bool Bare { get; set; }
 
         private readonly IJavaScriptRuntime _javaScriptRuntime;
-        private readonly object _padLock = new object();
-        private bool _initialized;
+        
+        // These are used to load javaScriptRuntime which is passed in
+        // and a singleton.
+        private static readonly object _padLock = new object();
+        private static bool _initialized;
 
         public CoffeeScriptCompiler(IJavaScriptRuntime javaScriptRuntime)
         {
