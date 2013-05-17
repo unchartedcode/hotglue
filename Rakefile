@@ -162,6 +162,7 @@ nuspec :nuproject, [ :project ] do |nuspec, args|
     nuspec.dependency dep.Name, dep.Version
   end
   nuspec.licenseUrl = "http://opensource.org/licenses/MIT"
+  nuspec.iconUrl = "http://hotglue.info/images/icon_medium.png"
   nuspec.working_directory = "#{deploy}"
   nuspec.output_file = "#{project.Name}.#{project.Version}.nuspec"
   nuspec.tags = ""
