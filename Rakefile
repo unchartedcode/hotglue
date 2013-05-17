@@ -189,6 +189,7 @@ nuspec :nucontent, [ :project ] do |nuspec, args|
     nuspec.dependency dep.Name, dep.Version
   end
   nuspec.licenseUrl = "http://opensource.org/licenses/MIT"
+  nuspec.projectUrl = "http://hotglue.info/"
   nuspec.working_directory = "#{deploy}"
   nuspec.output_file = "#{project.Name}.#{project.Version}.nuspec"
   nuspec.tags = ""
