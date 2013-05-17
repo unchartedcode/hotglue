@@ -214,3 +214,11 @@ nugetpack :nupack, [ :project ] do |nuget, args|
   nuget.nuspec      = "#{deploy}#{project.Name}.#{project.Version}.nuspec"
   nuget.output      = "#{deploy}"
 end
+
+task :nupush do
+    Dir.glob("#{deploy}\*.nupkg").each do |item|
+        full = File.expand_path(item).gsub("/","\\")
+        sh "#{tools}NuGet.exe push #{full}"
+    end
+end
+
