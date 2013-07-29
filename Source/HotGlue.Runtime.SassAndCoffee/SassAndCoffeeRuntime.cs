@@ -9,7 +9,7 @@ namespace HotGlue.Runtimes
         
         public void LoadLibrary(string code)
         {
-            if (!String.IsNullOrWhiteSpace(_code)) throw new Exception("Library has already been loaded");
+            //if (!String.IsNullOrWhiteSpace(_code)) throw new Exception("Library has already been loaded");
             _code = code;
         }
 
