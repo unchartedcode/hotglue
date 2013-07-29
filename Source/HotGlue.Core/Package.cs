@@ -153,7 +153,7 @@ namespace HotGlue
                 throw new Exception(String.Format("Unable to find compiler for generated reference: {0}", reference.Name));
             }
 
-            if (_cache != null)
+            if (_cache != null && reference.Exception == null)
             {
                 _cache.Set(cacheKey, new { LastWriteTimeUtc = lastWriteTimeUtc, Content = reference.Content });
             }

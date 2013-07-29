@@ -53,6 +53,10 @@ namespace HotGlue.Model
         /// If the file loading needs to wait on this dependency before continuing
         /// </summary>
         public bool Wait { get; set; }
+        /// <summary>
+        /// If not null this has the exception that occurred 
+        /// </summary>
+        public Exception Exception { get; set; }
 
         public override bool Equals(object obj)
         {

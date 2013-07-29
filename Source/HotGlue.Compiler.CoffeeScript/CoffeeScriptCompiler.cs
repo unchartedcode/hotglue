@@ -64,9 +64,10 @@ function hotglue_compile(code, bare) {
                 {
                     sb.AppendLine(string.Format("console.error(\"{0}\");", line));
                 }
+
                 reference.Content = sb.ToString();
+                reference.Exception = ex;
             }
-            
         }
     }
 }
