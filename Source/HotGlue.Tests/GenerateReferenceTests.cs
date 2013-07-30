@@ -59,7 +59,8 @@ namespace HotGlue.Tests
             result.ShouldBe(
 @"<script>
 $LAB
-.script(""/hotglue.axd/Scripts/depper1.js-app"");
+.script(""/hotglue.axd/Scripts/depper1.js-app"")
+;
 </script>
 ");
         
@@ -88,7 +89,8 @@ $LAB
             var result = package.GenerateReferences(references, new HelperOptions());
 
             // Assert
-            result.ShouldBe(".script(\"/hotglue.axd/Scripts/depper1.js-app\")");
+            result.ShouldBe(@".script(""/hotglue.axd/Scripts/depper1.js-app"")
+");
         }
     }
 }
