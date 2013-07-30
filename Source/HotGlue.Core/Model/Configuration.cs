@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
@@ -234,9 +235,64 @@ namespace HotGlue.Model
     {
     }
 
+    
     public class ObjectType
     {
         [XmlAttribute("type")]
         public string Type { get; set; }
+
+        [XmlElement("add")]
+        public ObjectVariables Variables { get; set; }
+    }
+
+    public class ObjectVariables : ICollection
+    {
+        private Dictionary<String, String> dict;
+
+        public ObjectVariables()
+        {
+            dict = new Dictionary<String, String>();
+        }
+
+        public ObjectVariable this[int index]
+        {
+            get
+            {
+                var keys = dict.Keys.ToArray();
+                return new ObjectVariable { Key = keys[index], Value = dict[keys[index]] };
+            }
+        }
+
+        public void Add(ObjectVariable variable)
+        {
+            dict.Add(variable.Key, variable.Value);
+        }
+
+        public IEnumerator GetEnumerator()
+        {
+            return dict.GetEnumerator();
+        }
+
+        public void CopyTo(Array array, int index)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int Count
+        {
+            get { return dict.Count; }
+        }
+        public object SyncRoot { get { return this; } }
+        public bool IsSynchronized { get { return false; } }
+    }
+
+    [XmlRoot("add")]
+    public class ObjectVariable
+    {
+        [XmlAttribute("key")]
+        public string Key { get; set; }
+
+        [XmlAttribute("value")]
+        public string Value { get; set; }
     }
 }

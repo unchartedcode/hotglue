@@ -15,6 +15,17 @@ namespace HotGlue.Model
 
         public static LoadedConfiguration Load(HotGlueConfiguration configuration)
         {
+            Func<string, IPlugin> activate = (type) =>
+                {
+                    var obj = (IPlugin)Activator.CreateInstance(Type.GetType(type));
+                    foreach (KeyValuePair<string,string> variable in configuration.GenerateScript.Variables)
+                    {
+                        if (obj.Variables == null) obj.Variables = new Dictionary<string, string>();
+                        obj.Variables.Add(variable.Key, variable.Value);
+                    }
+                    return obj;
+                };
+
             var loaded = new LoadedConfiguration();
 
             loaded.ScriptPath = configuration.ScriptPath;
@@ -25,7 +36,7 @@ namespace HotGlue.Model
             }
             else
             {
-                loaded.GenerateScriptReference = (IGenerateScriptReference)Activator.CreateInstance(Type.GetType(configuration.GenerateScript.Type));
+                loaded.GenerateScriptReference = (IGenerateScriptReference)activate(configuration.GenerateScript.Type);
             }
 
             if (configuration == null || configuration.Cache == null)

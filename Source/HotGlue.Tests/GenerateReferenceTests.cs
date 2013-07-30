@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IO;
 using HotGlue.Compilers;
 using HotGlue.Model;
@@ -27,7 +28,7 @@ namespace HotGlue.Tests
                 };
 
             // Act
-            var result = package.GenerateReferences(references, new HelperOptions { GenerateHeaderAndFooter = true });
+            var result = package.GenerateReferences(references, new HelperOptions());
 
             // Assert
             result.ShouldBe(@"<script src=""/hotglue.axd/Scripts/depper1.js-app""></script>
@@ -52,7 +53,7 @@ namespace HotGlue.Tests
                 };
 
             // Act
-            var result = package.GenerateReferences(references, new HelperOptions { GenerateHeaderAndFooter = true });
+            var result = package.GenerateReferences(references, new HelperOptions());
 
             // Assert
             result.ShouldBe(
@@ -70,6 +71,8 @@ $LAB
             // Arrange
             var compilers = new[] { new JQueryTemplateCompiler(), };
             var referencer = new LABjsScriptReference();
+            referencer.Variables = new Dictionary<string, string>();
+            referencer.Variables.Add("GenerateHeaderAndFooter", "false");
 
             var package = new Package(".", compilers, referencer);
 
@@ -82,7 +85,7 @@ $LAB
                 };
 
             // Act
-            var result = package.GenerateReferences(references, new HelperOptions { GenerateHeaderAndFooter = false });
+            var result = package.GenerateReferences(references, new HelperOptions());
 
             // Assert
             result.ShouldBe(".script(\"/hotglue.axd/Scripts/depper1.js-app\")");

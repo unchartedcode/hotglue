@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using HotGlue.Model;
 
@@ -6,6 +7,8 @@ namespace HotGlue
 {
     public class HTMLGenerateScriptReference : IGenerateScriptReference
     {
+        public Dictionary<string, string> Variables { get; set; }
+
         public string GenerateHeader()
         {
             return "";

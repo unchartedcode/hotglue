@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.IO;
 using HotGlue.Model;
 
@@ -5,11 +7,31 @@ namespace HotGlue
 {
     public class LABjsScriptReference : IGenerateScriptReference
     {
+        public Dictionary<string, string> Variables { get; set; }
+
+        private bool GenerateHeaderAndFooter
+        {
+            get
+            {
+                if (Variables == null)
+                {
+                    return true;
+                }
+
+                if (!Variables.ContainsKey("GenerateHeaderAndFooter"))
+                {
+                    return true;
+                }
+
+                return Convert.ToBoolean(Variables["GenerateHeaderAndFooter"]);
+            }
+        }
+
         public string GenerateHeader()
         {
-            return @"<script>
+            return GenerateHeaderAndFooter ? @"<script>
 $LAB
-";
+" : "";
         }
 
         public string GenerateReference(SystemReference reference)
@@ -24,9 +46,9 @@ $LAB
 
         public string GenerateFooter()
         {
-            return @";
+            return GenerateHeaderAndFooter ? @";
 </script>
-";
+" : "";
         }
     }
 }

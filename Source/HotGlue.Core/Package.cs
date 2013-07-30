@@ -195,18 +195,12 @@ namespace HotGlue
 
             var sw = new StringBuilder();
 
-            if (options.GenerateHeaderAndFooter)
-            {
-                sw.Append(_generateScriptReference.GenerateHeader());
-            }
+            sw.Append(_generateScriptReference.GenerateHeader());
             foreach (var reference in References(systemReferences))
             {
                 sw.Append(_generateScriptReference.GenerateReference(reference));
             }
-            if (options.GenerateHeaderAndFooter)
-            {
-                sw.Append(_generateScriptReference.GenerateFooter());
-            }
+            sw.Append(_generateScriptReference.GenerateFooter());
 
             return sw.ToString();
         }
