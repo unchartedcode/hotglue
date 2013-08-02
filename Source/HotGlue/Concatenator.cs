@@ -23,13 +23,14 @@ namespace HotGlue.Console
             {
                 throw new ArgumentNullException("fileName");
             }
-            var config = LoadedConfiguration.Load(HotGlueConfiguration.Default());
-            var locator = new GraphReferenceLocator(config);
+            var config = HotGlueConfiguration.Load(false);
+            var loaded = LoadedConfiguration.Load(config);
+            var locator = new GraphReferenceLocator(loaded);
             var directoryInfo = new DirectoryInfo(rootPath);
             var fileInfo = new FileInfo(Path.Combine(filePath, fileName));
             var reference = new SystemReference(directoryInfo, fileInfo, fileName);
             var references = locator.Load(rootPath, reference);
-            var package = Package.Build(config, rootPath);
+            var package = Package.Build(loaded, rootPath);
             return package.Compile(references);
         }
     }
