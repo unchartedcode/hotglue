@@ -62,6 +62,40 @@ var mod = require('module1.js');
         }
 
         [Test]
+        public void Can_Parse_Module_Reference_Without_Variable()
+        {
+            // Arrange
+            var referencer = new RequireReference();
+
+            // Act
+            var references = referencer.Parse(@"
+require('module1.js');
+
+");
+            // Assert
+            references.Count().ShouldBe(1);
+            references.First().Name.ShouldBe("module1.js");
+            references.First().Type.ShouldBe(Reference.TypeEnum.Module);
+        }
+
+        [Test]
+        public void Can_Parse_Module_Reference_Without_Extension()
+        {
+            // Arrange
+            var referencer = new RequireReference();
+
+            // Act
+            var references = referencer.Parse(@"
+require('module1');
+
+");
+            // Assert
+            references.Count().ShouldBe(1);
+            references.First().Name.ShouldBe("module1");
+            references.First().Type.ShouldBe(Reference.TypeEnum.Module);
+        }
+
+        [Test]
         public void Can_Parse_Generate_Reference()
         {
             // Arrange
