@@ -114,7 +114,7 @@ namespace HotGlue
                 throw new DirectoryNotFoundException(String.Format("The rootPath '{0}' passed in doesn't exist or can't resolve.", rootPath));
             }
             var references = new Dictionary<SystemReference, IList<RelativeReference>>();
-            Parse(rootDirectory, relativePath, new RelativeReference(fileName, 0) { Type = Reference.TypeEnum.App }, ref references);
+            Parse(rootDirectory, relativePath, new RelativeReference(Path.Combine(rootDirectory.ToString(), relativePath), fileName, 0) { Type = Reference.TypeEnum.App }, ref references);
             AddAbsoluteReferences(references);
             return references;
         }
@@ -161,6 +161,14 @@ namespace HotGlue
             if (fileReference.Exists)
             {
                 systemReference = new SystemReference(rootDirectory, fileReference, relativeReference.ReferenceName) { Type = relativeReference.Type };
+            }
+            else
+            {
+                var files = System.IO.Directory.GetFiles(System.IO.Directory.GetParent(filePath).FullName, relativeReference.ReferenceName + "*");
+                if (files.Length == 1)
+                {
+                    systemReference = new SystemReference(rootDirectory, new FileInfo(files[0]), relativeReference.ReferenceName) { Type = relativeReference.Type };
+                }
             }
 
             if (systemReference == null)

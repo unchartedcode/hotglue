@@ -49,6 +49,26 @@ namespace HotGlue.Tests
         }
 
         [Test]
+        public void Parse_And_Return_When_No_Extension_Is_Specified()
+        {
+            // Arrange
+            var locator = new GraphReferenceLocator(configuration);
+            var reference = BuildReference("Module11", "graph_test.js", Reference.TypeEnum.App);
+            var matchReferences = new[]
+                                  {
+                                      BuildReference("Module11", "dep1.js", Reference.TypeEnum.Dependency),
+                                      BuildReference("Module11", "module1.js", Reference.TypeEnum.Dependency),
+                                      BuildReference("Module11", "graph_test.js", Reference.TypeEnum.App)
+                                  };
+
+            // Act
+            var references = locator.Load(root, reference).ToList();
+
+            // Assert
+            ShouldMatch(matchReferences, references);
+        }
+
+        [Test]
         [TestCase(true)]
         [TestCase(false)]
         public void Depedencies_At_Multiple_Levels_Should_Not_Be_Circular(bool specifyRoot)

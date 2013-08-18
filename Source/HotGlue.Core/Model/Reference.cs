@@ -122,6 +122,12 @@ namespace HotGlue.Model
         /// </summary>
         public string ReferenceName { get; private set; }
 
+        public RelativeReference(string root, string referenceName, int index)
+            : this(referenceName, index)
+        {
+            UpdateExtension(root);
+        }
+
         public RelativeReference(string referenceName, int index)
         {
             if (String.IsNullOrWhiteSpace(referenceName))
@@ -130,18 +136,30 @@ namespace HotGlue.Model
             }
             // Not resolving with System.File because reference could be anything
             Name = System.IO.Path.GetFileName(referenceName);
-            var dotIndex = Name.LastIndexOf(".");
-            if (dotIndex > 0)
-            {
-                Extension = Name.Substring(dotIndex);
-            }
+            Extension = System.IO.Path.HasExtension(referenceName) ? System.IO.Path.GetExtension(referenceName) : "";
             ReferenceName = referenceName;
             Index = index;
         }
 
-        internal void UpdateFromSystemReference(Reference systemReference)
+        internal void UpdateFromSystemReference(SystemReference systemReference)
         {
             this.Path = systemReference.Path;
+            UpdateExtension(systemReference.SystemPath);
+        }
+
+        internal void UpdateExtension(string root)
+        {
+            if (Extension.Length > 0)
+            {
+                return;
+            }
+
+            var files = System.IO.Directory.GetFiles(root, Name + "*");
+            if (files.Length == 1)
+            {
+                Name = System.IO.Path.GetFileName(files[0]);
+                Extension = System.IO.Path.GetExtension(files[0]);
+            }
         }
     }
 
