@@ -16,7 +16,7 @@ namespace HotGlue
     public class RequireReference : IFindReference
     {
         private static readonly Regex ReferenceVariableRegex = new Regex(
-            @"^\s*(?!//|#|/\*)(?:var\s+)?(?<variable>\S+)?\s*((=|:){1}\s*)?require(\(|\s)(""|')(?<path>.+?)(""|')\)?\S*;?\s*$",
+            @"^(?!\s*//|\s*#|\s*/\*)(?:var\s+)?(?<variable>\S+)?(.*)?((=|:){1}\s*)?require(\(|\s)(""|')(?<path>.+?)(""|')\)?\S*;?\s*$",
             RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.ExplicitCapture
             );
 

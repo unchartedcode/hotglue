@@ -69,6 +69,27 @@ namespace HotGlue.Tests
         }
 
         [Test]
+        public void Parse_And_Return_When_Multiple_Reference_Lines_With_No_Variable_Are_Next_To_Each_Other()
+        {
+            // Arrange
+            var locator = new GraphReferenceLocator(configuration);
+            var reference = BuildReference("Module12", "graph_test.js", Reference.TypeEnum.App);
+            var matchReferences = new[]
+                                  {
+                                      BuildReference("Module12", "module1.js", Reference.TypeEnum.Module),
+                                      BuildReference("Module12", "module2.js", Reference.TypeEnum.Module),
+                                      BuildReference("Module12", "graph_test.js", Reference.TypeEnum.App)
+                                  };
+
+            // Act
+            var references = locator.Load(root, reference).ToList();
+
+            // Assert
+            ShouldMatch(matchReferences, references);
+        }
+
+
+        [Test]
         [TestCase(true)]
         [TestCase(false)]
         public void Depedencies_At_Multiple_Levels_Should_Not_Be_Circular(bool specifyRoot)
