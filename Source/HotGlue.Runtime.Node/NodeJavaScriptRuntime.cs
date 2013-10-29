@@ -36,7 +36,7 @@ stdin.on('data', function(buffer) {
 });
 
 stdin.on('end', function() {
-  console.log(hotglue_compile(code));
+  console.log(hotglue_compile(code, process.argv.length > 2 ? (process.argv[2] == 'True' ? true : false) : undefined));
 });
 ");
             }
@@ -44,7 +44,8 @@ stdin.on('end', function() {
 
         public string Execute(string functionName, params object[] args)
         {
-            ProcessStartInfo start = new ProcessStartInfo(_node, _temp);
+            var arguments = _temp + " " + (args.Length > 1 ? String.Join(" ", args.Skip(1)) : "");
+            ProcessStartInfo start = new ProcessStartInfo(_node, arguments);
             start.RedirectStandardInput = true;
             start.RedirectStandardOutput = true;
             start.RedirectStandardError = true;
